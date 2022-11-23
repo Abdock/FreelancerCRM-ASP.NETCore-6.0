@@ -18,7 +18,7 @@ public class CategoryRepository : RepositoryBase<Category, CategoryEntity>, ICat
     public async Task<IEnumerable<Advertisement>> GetAdvertisementsFromCategoryAsync(Category category)
     {
         return await Context.Categories
-            .Where(entity => entity.RowGuid == category.Id)
+            .Where(entity => entity.Id == category.Id)
             .Include(entity => entity.Advertisements)
             .SelectMany(entity => entity.Advertisements)
             .ProjectTo<Advertisement>(Mapper.ConfigurationProvider)
@@ -29,7 +29,7 @@ public class CategoryRepository : RepositoryBase<Category, CategoryEntity>, ICat
 
     public async Task UpdateAsync(Category category)
     {
-        var entity = await Context.Categories.FirstOrDefaultAsync(e => e.RowGuid == category.Id);
+        var entity = await Context.Categories.FirstOrDefaultAsync(e => e.Id == category.Id);
         if (entity == null)
         {
             throw new ResourceNotFoundException(nameof(Category), category.Id);

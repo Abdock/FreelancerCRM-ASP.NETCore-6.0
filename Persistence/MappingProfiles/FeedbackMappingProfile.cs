@@ -11,7 +11,6 @@ public class FeedbackMappingProfile : Profile
         CreateMap<Feedback, FeedbackEntity>(MemberList.Source)
             .ForMember(dst => dst.Id, expression => expression.Ignore())
             .ForMember(dst => dst.Client, expression => { expression.MapFrom(src => src.Client); })
-            .ForMember(dst => dst.RowGuid, expression => { expression.MapFrom(src => src.Id); })
             .ReverseMap();
     }
 }

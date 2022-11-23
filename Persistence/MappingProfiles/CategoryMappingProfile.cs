@@ -10,7 +10,6 @@ public class CategoryMappingProfile : Profile
     {
         CreateMap<Category, CategoryEntity>(MemberList.Source)
             .ForMember(dst => dst.Id, expression => expression.Ignore())
-            .ForMember(dst => dst.RowGuid, expression => { expression.MapFrom(src => src.Id); })
             .ForMember(dst => dst.Advertisements, expression => { expression.MapFrom(src => src.Advertisements); })
             .ReverseMap();
     }

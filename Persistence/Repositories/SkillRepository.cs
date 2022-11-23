@@ -17,7 +17,7 @@ public class SkillRepository : RepositoryBase<Skill, SkillEntity>, ISkillReposit
     public async Task<IEnumerable<Advertisement>> GetAdvertisementsWithSkillAsync(Skill skill)
     {
         return await Context.Skills
-            .Where(s => s.RowGuid == skill.Id)
+            .Where(s => s.Id == skill.Id)
             .Include(s => s.Advertisements)
             .SelectMany(s => s.Advertisements)
             .ProjectTo<Advertisement>(Mapper.ConfigurationProvider)
@@ -27,7 +27,7 @@ public class SkillRepository : RepositoryBase<Skill, SkillEntity>, ISkillReposit
     public async Task<IEnumerable<Freelancer>> GetFreelancersWithSkillAsync(Skill skill)
     {
         return await Context.Skills
-            .Where(s => s.RowGuid == skill.Id)
+            .Where(s => s.Id == skill.Id)
             .Include(s => s.Freelancers)
             .SelectMany(s => s.Freelancers)
             .ProjectTo<Freelancer>(Mapper.ConfigurationProvider)

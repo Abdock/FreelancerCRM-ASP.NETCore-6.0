@@ -6,7 +6,6 @@ using Persistence.Abstractions;
 namespace Persistence.Entities;
 
 [Table("Clients")]
-[Index(nameof(RowGuid), IsUnique = true, Name = "UX_Clients_RowGuid")]
 public class ClientEntity : BasePersistenceEntity
 {
     public ClientEntity()
@@ -17,10 +16,8 @@ public class ClientEntity : BasePersistenceEntity
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public override int Id { get; set; }
-
+    public override Guid Id { get; set; }
     public UserAccountEntity Account { get; set; } = null!;
-    public override Guid RowGuid { get; set; }
     public ICollection<OrderEntity> Orders { get; set; }
     public ICollection<FeedbackEntity> Feedbacks { get; set; }
 }

@@ -24,7 +24,7 @@ public abstract class RepositoryBase<TDomainEntity, TPersistenceEntity> : IRepos
 
     public async Task<TDomainEntity> GetByIdAsync(Guid id)
     {
-        var entity = await Context.Set<TPersistenceEntity>().FirstOrDefaultAsync(e => e.RowGuid == id);
+        var entity = await Context.Set<TPersistenceEntity>().FirstOrDefaultAsync(e => e.Id == id);
         if (entity == null)
         {
             throw new ResourceNotFoundException(nameof(TDomainEntity), id);
@@ -42,7 +42,7 @@ public abstract class RepositoryBase<TDomainEntity, TPersistenceEntity> : IRepos
 
     public async Task RemoveAsync(Guid id)
     {
-        var entity = await Context.Set<TPersistenceEntity>().FirstOrDefaultAsync(e => e.RowGuid == id);
+        var entity = await Context.Set<TPersistenceEntity>().FirstOrDefaultAsync(e => e.Id == id);
         if (entity == null)
         {
             throw new ResourceNotFoundException(nameof(TDomainEntity), id);
@@ -74,7 +74,7 @@ public abstract class RepositoryBase<TDomainEntity, TPersistenceEntity> : IRepos
 
     public async Task<bool> IsExistsAsync(Guid id)
     {
-        return await Context.Set<TPersistenceEntity>().AnyAsync(e => e.RowGuid == id);
+        return await Context.Set<TPersistenceEntity>().AnyAsync(e => e.Id == id);
     }
 
     public async Task<int> TotalCountAsync()

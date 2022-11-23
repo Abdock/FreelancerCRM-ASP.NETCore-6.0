@@ -6,7 +6,6 @@ using Persistence.Abstractions;
 namespace Persistence.Entities;
 
 [Table("Feedbacks")]
-[Index(nameof(RowGuid), IsUnique = true, Name = "UX_Feedbacks_RowGuid")]
 public class FeedbackEntity : BasePersistenceEntity
 {
     public FeedbackEntity()
@@ -16,7 +15,7 @@ public class FeedbackEntity : BasePersistenceEntity
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public override int Id { get; set; }
+    public override Guid Id { get; set; }
 
     [MaxLength(256)]
     public string Title { get; set; } = default!;
@@ -28,16 +27,15 @@ public class FeedbackEntity : BasePersistenceEntity
     public decimal Grade { get; set; }
 
     public DateTime CreationDate { get; set; }
-    public override Guid RowGuid { get; set; }
 
     [ForeignKey(nameof(Order))]
-    public int OrderId { get; set; }
+    public Guid OrderId { get; set; }
 
     [ForeignKey(nameof(Client))]
-    public int ClientId { get; set; }
+    public Guid ClientId { get; set; }
 
     [ForeignKey(nameof(Freelancer))]
-    public int FreelancerId { get; set; }
+    public Guid FreelancerId { get; set; }
 
     public OrderEntity Order { get; set; } = default!;
     public ClientEntity Client { get; set; } = default!;

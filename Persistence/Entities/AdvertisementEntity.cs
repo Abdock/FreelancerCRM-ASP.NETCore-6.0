@@ -7,7 +7,6 @@ using Persistence.Abstractions;
 namespace Persistence.Entities;
 
 [Table("Advertisements")]
-[Index(nameof(RowGuid), IsUnique = true, Name = "UX_Advertisements_RowGuid")]
 public class AdvertisementEntity : BasePersistenceEntity
 {
     public AdvertisementEntity()
@@ -16,8 +15,7 @@ public class AdvertisementEntity : BasePersistenceEntity
     }
 
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public override int Id { get; set; }
+    public override Guid Id { get; set; }
 
     [MaxLength(512)]
     public string Title { get; set; } = default!;
@@ -32,16 +30,15 @@ public class AdvertisementEntity : BasePersistenceEntity
     public DateTime Deadline { get; set; }
 
     [ForeignKey(nameof(Client))]
-    public int ClientId { get; set; }
+    public Guid ClientId { get; set; }
 
     public ICollection<SkillEntity> Skills { get; set; }
-    public override Guid RowGuid { get; set; }
 
     [ForeignKey(nameof(AdvertisementStatus))]
     public AdvertisementStatus AdvertisementStatusId { get; set; }
 
     [ForeignKey(nameof(Category))]
-    public int CategoryId { get; set; }
+    public Guid CategoryId { get; set; }
 
     public AdvertisementStatusEntity AdvertisementStatus { get; set; } = default!;
 

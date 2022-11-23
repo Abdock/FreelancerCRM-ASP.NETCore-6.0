@@ -17,7 +17,7 @@ public class FreelancerRepository : RepositoryBase<Freelancer, FreelancerEntity>
     public async Task<IEnumerable<Order>> GetOrdersOfFreelancerAsync(Guid freelancerId)
     {
         return await Context.Freelancers
-            .Where(e => e.RowGuid == freelancerId)
+            .Where(e => e.Id == freelancerId)
             .Include(e => e.Orders)
             .SelectMany(e => e.Orders)
             .ProjectTo<Order>(Mapper.ConfigurationProvider)
@@ -27,7 +27,7 @@ public class FreelancerRepository : RepositoryBase<Freelancer, FreelancerEntity>
     public async Task<IEnumerable<Feedback>> GetFeedbacksOfFreelancerAsync(Guid freelancerId)
     {
         return await Context.Freelancers
-            .Where(e => e.RowGuid == freelancerId)
+            .Where(e => e.Id == freelancerId)
             .Include(e => e.Feedbacks)
             .SelectMany(e => e.Feedbacks)
             .ProjectTo<Feedback>(Mapper.ConfigurationProvider)
@@ -37,7 +37,7 @@ public class FreelancerRepository : RepositoryBase<Freelancer, FreelancerEntity>
     public async Task<IEnumerable<Skill>> GetSkillsOfFreelancerAsync(Freelancer freelancer)
     {
         return await Context.Freelancers
-            .Where(e => e.RowGuid == freelancer.Id)
+            .Where(e => e.Id == freelancer.Id)
             .Include(e => e.Skills)
             .SelectMany(e => e.Skills)
             .ProjectTo<Skill>(Mapper.ConfigurationProvider)
@@ -47,10 +47,10 @@ public class FreelancerRepository : RepositoryBase<Freelancer, FreelancerEntity>
     public async Task AddAsync(Freelancer freelancer)
     {
         var skillsIds = freelancer.Skills.Select(skill => skill.Id).ToHashSet();
-        var createdSkills = await Context.Skills.Where(skill => skillsIds.Contains(skill.RowGuid)).ToListAsync();
+        var createdSkills = await Context.Skills.Where(skill => skillsIds.Contains(skill.Id)).ToListAsync();
         var entity = Mapper.Map<FreelancerEntity>(freelancer);
         var newSkills = freelancer.Skills
-            .Where(newSkill => createdSkills.All(oldSkill => oldSkill.RowGuid != newSkill.Id))
+            .Where(newSkill => createdSkills.All(oldSkill => oldSkill.Id != newSkill.Id))
             .Select(skill => Mapper.Map<SkillEntity>(skill))
             .ToList();
         createdSkills.AddRange(newSkills);

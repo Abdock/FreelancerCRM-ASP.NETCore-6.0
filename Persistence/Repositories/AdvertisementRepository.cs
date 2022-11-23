@@ -20,7 +20,7 @@ public class AdvertisementRepository : RepositoryBase<Advertisement, Advertiseme
     {
         var entity = await Context.Advertisements
             .Include(e => e.Category)
-            .Where(ad => ad.RowGuid == advertisement.Id)
+            .Where(ad => ad.Id == advertisement.Id)
             .Select(ad => ad.Category)
             .FirstOrDefaultAsync();
         if (entity == null)
@@ -35,7 +35,7 @@ public class AdvertisementRepository : RepositoryBase<Advertisement, Advertiseme
     {
         var entity = await Context.Advertisements
             .Include(e => e.Client)
-            .Where(ad => ad.RowGuid == advertisement.Id)
+            .Where(ad => ad.Id == advertisement.Id)
             .Select(ad => ad.Client)
             .FirstOrDefaultAsync();
         if (entity == null)
@@ -50,7 +50,7 @@ public class AdvertisementRepository : RepositoryBase<Advertisement, Advertiseme
     {
         var advertisement = await Context.Advertisements
             .Include(ad => ad.Skills)
-            .FirstOrDefaultAsync(ad => ad.RowGuid == entity.Id);
+            .FirstOrDefaultAsync(ad => ad.Id == entity.Id);
         if (advertisement == null)
         {
             throw new ResourceNotFoundException(nameof(Advertisement), entity.Id);
@@ -63,7 +63,7 @@ public class AdvertisementRepository : RepositoryBase<Advertisement, Advertiseme
     {
         var order = await Context.Orders
             .Include(order => order.Advertisement)
-            .FirstOrDefaultAsync(order => order.Advertisement.RowGuid == entity.Id);
+            .FirstOrDefaultAsync(order => order.Advertisement.Id == entity.Id);
         if (order == null)
         {
             throw new ResourceNotFoundException(nameof(Advertisement), entity.Id);
@@ -75,14 +75,14 @@ public class AdvertisementRepository : RepositoryBase<Advertisement, Advertiseme
     public async Task AddAsync(Advertisement advertisement)
     {
         var category = await Context.Categories
-            .FirstOrDefaultAsync(category => category.RowGuid == advertisement.Category.Id);
+            .FirstOrDefaultAsync(category => category.Id == advertisement.Category.Id);
         if (category == null)
         {
             throw new ResourceNotFoundException(nameof(Category), advertisement.Category.Id);
         }
 
         var client = await Context.Clients
-            .FirstOrDefaultAsync(client => client.RowGuid == advertisement.Client.Id);
+            .FirstOrDefaultAsync(client => client.Id == advertisement.Client.Id);
         if (client == null)
         {
             throw new ResourceNotFoundException(nameof(Client), advertisement.Client.Id);
@@ -90,7 +90,7 @@ public class AdvertisementRepository : RepositoryBase<Advertisement, Advertiseme
 
         var skills = advertisement.Skills.Select(s => s.Id).ToHashSet();
 
-        var createdSkills = await Context.Skills.Where(skill => skills.Contains(skill.RowGuid)).ToListAsync();
+        var createdSkills = await Context.Skills.Where(skill => skills.Contains(skill.Id)).ToListAsync();
 
         var status = await Context.AdvertisementsStatuses.FirstAsync(s => s.Id == advertisement.Status);
 
@@ -108,7 +108,7 @@ public class AdvertisementRepository : RepositoryBase<Advertisement, Advertiseme
 
     public async Task UpdateAsync(Advertisement advertisement)
     {
-        var entity = await Context.Advertisements.FirstOrDefaultAsync(ad => ad.RowGuid == advertisement.Id);
+        var entity = await Context.Advertisements.FirstOrDefaultAsync(ad => ad.Id == advertisement.Id);
         if (entity == null)
         {
             throw new ResourceNotFoundException(nameof(entity), advertisement.Id);

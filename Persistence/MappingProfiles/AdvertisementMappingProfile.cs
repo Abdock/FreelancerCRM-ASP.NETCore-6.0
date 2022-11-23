@@ -13,7 +13,6 @@ public class AdvertisementMappingProfile : Profile
             .ForMember(dst=>dst.CategoryId, expression => expression.Ignore())
             .ForMember(dst=>dst.ClientId, expression => expression.Ignore())
             .ForMember(dst => dst.Client, expression => { expression.MapFrom(src => src.Client); })
-            .ForMember(dst => dst.RowGuid, expression => { expression.MapFrom(src => src.Id); })
             .ForMember(dst => dst.Skills, expression => { expression.MapFrom(src => src.Skills); })
             .ForMember(dst => dst.AdvertisementStatusId, expression => { expression.MapFrom(src => src.Status); })
             .ForMember(dst => dst.AdvertisementStatus, expression =>

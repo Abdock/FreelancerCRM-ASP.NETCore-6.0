@@ -10,7 +10,6 @@ public class OrderMappingProfile : Profile
     {
         CreateMap<Order, OrderEntity>(MemberList.Source)
             .ForMember(dst => dst.Id, expression => expression.Ignore())
-            .ForMember(dst => dst.RowGuid, expression => { expression.MapFrom(src => src.Id); })
             .ForMember(dst => dst.Advertisement, expression => { expression.MapFrom(src => src.Advertisement); })
             .ForMember(dst => dst.OrderStatusId, expression => { expression.MapFrom(src => src.Status); })
             .ForMember(dst => dst.OrderStatus, expression =>

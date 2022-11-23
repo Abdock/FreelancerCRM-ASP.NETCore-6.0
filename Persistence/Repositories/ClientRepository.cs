@@ -18,7 +18,7 @@ public class ClientRepository : RepositoryBase<Client, ClientEntity>, IClientRep
     {
         var client = await Context.Clients
             .Include(client => client.Orders)
-            .FirstOrDefaultAsync(client => client.RowGuid == id);
+            .FirstOrDefaultAsync(client => client.Id == id);
         if (client == null)
         {
             throw new ResourceNotFoundException($"{nameof(Client)}", id);
@@ -32,7 +32,7 @@ public class ClientRepository : RepositoryBase<Client, ClientEntity>, IClientRep
         var client = await Context
             .Clients
             .Include(client => client.Feedbacks)
-            .FirstAsync(client => client.RowGuid == id);
+            .FirstAsync(client => client.Id == id);
         if (client == null)
         {
             throw new ResourceNotFoundException(nameof(Client), id);

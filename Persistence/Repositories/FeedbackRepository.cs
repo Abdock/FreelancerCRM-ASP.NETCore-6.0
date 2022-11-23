@@ -18,7 +18,7 @@ public class FeedbackRepository : RepositoryBase<Feedback, FeedbackEntity>, IFee
     {
         var entity = await Context.Feedbacks
             .Include(fb => fb.Order)
-            .FirstOrDefaultAsync(fb => fb.RowGuid == feedback.Id);
+            .FirstOrDefaultAsync(fb => fb.Id == feedback.Id);
         if (entity == null)
         {
             throw new ResourceNotFoundException(nameof(Feedback), feedback.Id);
@@ -31,7 +31,7 @@ public class FeedbackRepository : RepositoryBase<Feedback, FeedbackEntity>, IFee
     {
         var entity = await Context.Feedbacks
             .Include(fb => fb.Client)
-            .FirstOrDefaultAsync(fb => fb.RowGuid == feedback.Id);
+            .FirstOrDefaultAsync(fb => fb.Id == feedback.Id);
         if (entity == null)
         {
             throw new ResourceNotFoundException(nameof(Feedback), feedback.Id);
@@ -44,7 +44,7 @@ public class FeedbackRepository : RepositoryBase<Feedback, FeedbackEntity>, IFee
     {
         var entity = await Context.Feedbacks
             .Include(fb => fb.Freelancer)
-            .FirstOrDefaultAsync(fb => fb.RowGuid == feedback.Id);
+            .FirstOrDefaultAsync(fb => fb.Id == feedback.Id);
         if (entity == null)
         {
             throw new ResourceNotFoundException(nameof(Feedback), feedback.Id);
@@ -58,7 +58,7 @@ public class FeedbackRepository : RepositoryBase<Feedback, FeedbackEntity>, IFee
         var entity = await Context.Feedbacks
             .Include(fb => fb.Order)
             .ThenInclude(order => order.Advertisement)
-            .FirstOrDefaultAsync(fb => fb.RowGuid == feedback.Id);
+            .FirstOrDefaultAsync(fb => fb.Id == feedback.Id);
         if (entity == null)
         {
             throw new ResourceNotFoundException(nameof(Feedback), feedback.Id);
@@ -70,21 +70,21 @@ public class FeedbackRepository : RepositoryBase<Feedback, FeedbackEntity>, IFee
     public async Task AddAsync(Feedback feedback)
     {
         var client = await Context.Clients
-            .FirstOrDefaultAsync(client => client.RowGuid == feedback.Client.Id);
+            .FirstOrDefaultAsync(client => client.Id == feedback.Client.Id);
         if (client == null)
         {
             throw new ResourceNotFoundException(nameof(Client), feedback.Client.Id);
         }
 
         var freelancer = await Context.Freelancers
-            .FirstOrDefaultAsync(freelancer => freelancer.RowGuid == feedback.Freelancer.Id);
+            .FirstOrDefaultAsync(freelancer => freelancer.Id == feedback.Freelancer.Id);
         if (freelancer == null)
         {
             throw new ResourceNotFoundException(nameof(Freelancer), feedback.Freelancer.Id);
         }
 
         var order = await Context.Orders
-            .FirstOrDefaultAsync(order => order.RowGuid == feedback.Order.Id);
+            .FirstOrDefaultAsync(order => order.Id == feedback.Order.Id);
         if (order == null)
         {
             throw new ResourceNotFoundException(nameof(Order), feedback.Order.Id);

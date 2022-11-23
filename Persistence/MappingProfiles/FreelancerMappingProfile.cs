@@ -10,7 +10,6 @@ public class FreelancerMappingProfile : Profile
     {
         CreateMap<Freelancer, FreelancerEntity>(MemberList.Source)
             .ForMember(dst => dst.Id, expression => expression.Ignore())
-            .ForMember(dst => dst.RowGuid, expression => { expression.MapFrom(src => src.Id); })
             .ForMember(dst => dst.Account, expression => { expression.MapFrom(src => src.Account); })
             .ForMember(dst => dst.Feedbacks, expression => { expression.MapFrom(src => src.Feedbacks); })
             .ForMember(dst => dst.Orders, expression => { expression.MapFrom(src => src.Orders); })

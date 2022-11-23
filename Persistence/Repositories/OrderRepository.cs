@@ -20,7 +20,7 @@ public class OrderRepository : RepositoryBase<Order, OrderEntity>, IOrderReposit
         var entity = await Context.Orders
             .Include(ord => ord.Advertisement)
             .ThenInclude(ad => ad.Client)
-            .FirstOrDefaultAsync(ord => ord.RowGuid == order.Id);
+            .FirstOrDefaultAsync(ord => ord.Id == order.Id);
         if (entity == null)
         {
             throw new ResourceNotFoundException(nameof(Order), order.Id);
@@ -33,7 +33,7 @@ public class OrderRepository : RepositoryBase<Order, OrderEntity>, IOrderReposit
     {
         var entity = await Context.Orders
             .Include(ord => ord.Freelancer)
-            .FirstOrDefaultAsync(ord => ord.RowGuid == order.Id);
+            .FirstOrDefaultAsync(ord => ord.Id == order.Id);
         if (entity == null)
         {
             throw new ResourceNotFoundException(nameof(Order), order.Id);
@@ -46,7 +46,7 @@ public class OrderRepository : RepositoryBase<Order, OrderEntity>, IOrderReposit
     {
         return await Context.Orders
             .Include(ord => ord.Feedbacks)
-            .Where(ord => ord.RowGuid == order.Id)
+            .Where(ord => ord.Id == order.Id)
             .SelectMany(ord => ord.Feedbacks)
             .ProjectTo<Feedback>(Mapper.ConfigurationProvider)
             .ToListAsync();
@@ -55,14 +55,14 @@ public class OrderRepository : RepositoryBase<Order, OrderEntity>, IOrderReposit
     public async Task AddAsync(Order order)
     {
         var advertisement = await Context.Advertisements
-                .FirstOrDefaultAsync(ad => ad.RowGuid == order.Advertisement.Id);
+                .FirstOrDefaultAsync(ad => ad.Id == order.Advertisement.Id);
         if (advertisement == null)
         {
             throw new ResourceNotFoundException(nameof(Advertisement), order.Advertisement.Id);
         }
 
         var freelancer = await Context.Freelancers
-            .FirstOrDefaultAsync(freelancer => freelancer.RowGuid == order.Freelancer.Id);
+            .FirstOrDefaultAsync(freelancer => freelancer.Id == order.Freelancer.Id);
         if (freelancer == null)
         {
             throw new ResourceNotFoundException(nameof(Freelancer), order.Freelancer.Id);
