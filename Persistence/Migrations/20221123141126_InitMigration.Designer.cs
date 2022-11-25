@@ -12,7 +12,7 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(CrmContext))]
-    [Migration("20221012091213_InitMigration")]
+    [Migration("20221123141126_InitMigration")]
     partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,11 +26,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("AdvertisementEntitySkillEntity", b =>
                 {
-                    b.Property<int>("AdvertisementsId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("AdvertisementsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SkillsId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SkillsId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("AdvertisementsId", "SkillsId");
 
@@ -41,11 +41,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("FreelancerEntitySkillEntity", b =>
                 {
-                    b.Property<int>("FreelancersId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("FreelancersId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SkillsId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SkillsId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("FreelancersId", "SkillsId");
 
@@ -56,20 +56,18 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Persistence.Entities.AdvertisementEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AdvertisementStatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -86,9 +84,6 @@ namespace Persistence.Migrations
                         .HasPrecision(15, 3)
                         .HasColumnType("decimal(15,3)");
 
-                    b.Property<Guid>("RowGuid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(512)
@@ -101,9 +96,6 @@ namespace Persistence.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("ClientId");
-
-                    b.HasIndex(new[] { "RowGuid" }, "UX_Advertisements_RowGuid")
-                        .IsUnique();
 
                     b.ToTable("Advertisements");
                 });
@@ -142,57 +134,39 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Persistence.Entities.CategoryEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<Guid>("RowGuid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex(new[] { "RowGuid" }, "UX_Categories_RowGuid")
-                        .IsUnique();
 
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Persistence.Entities.ClientEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("RowGuid")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex(new[] { "RowGuid" }, "UX_Clients_RowGuid")
-                        .IsUnique();
 
                     b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("Persistence.Entities.FeedbackEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
                         .IsRequired()
@@ -202,17 +176,14 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FreelancerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("FreelancerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Grade")
                         .HasPrecision(5, 2)
                         .HasColumnType("decimal(5,2)");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("RowGuid")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
@@ -228,53 +199,37 @@ namespace Persistence.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex(new[] { "RowGuid" }, "UX_Feedbacks_RowGuid")
-                        .IsUnique();
-
                     b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("Persistence.Entities.FreelancerEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("RowGuid")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex(new[] { "RowGuid" }, "UX_Freelancers_RowGuid")
-                        .IsUnique();
 
                     b.ToTable("Freelancers");
                 });
 
             modelBuilder.Entity("Persistence.Entities.OrderEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<Guid>("AdvertisementId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AdvertisementId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ClientEntityId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("ClientEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FreelancerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("FreelancerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("OrderStatusId")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("RowGuid")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -285,9 +240,6 @@ namespace Persistence.Migrations
                     b.HasIndex("FreelancerId");
 
                     b.HasIndex("OrderStatusId");
-
-                    b.HasIndex(new[] { "RowGuid" }, "UX_Orders_RowGuid")
-                        .IsUnique();
 
                     b.ToTable("Orders");
                 });
@@ -314,11 +266,6 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = 2,
-                            Name = "Open"
-                        },
-                        new
-                        {
                             Id = 3,
                             Name = "Completed"
                         },
@@ -331,26 +278,18 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Persistence.Entities.SkillEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<Guid>("RowGuid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex(new[] { "Name" }, "UX_Skills_Name")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "RowGuid" }, "UX_Skills_RowGuid")
                         .IsUnique();
 
                     b.ToTable("Skills");
@@ -417,8 +356,8 @@ namespace Persistence.Migrations
                 {
                     b.OwnsOne("Persistence.Entities.UserAccountEntity", "Account", b1 =>
                         {
-                            b1.Property<int>("ClientEntityId")
-                                .HasColumnType("int");
+                            b1.Property<Guid>("ClientEntityId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Email")
                                 .IsRequired()
@@ -483,8 +422,8 @@ namespace Persistence.Migrations
                 {
                     b.OwnsOne("Persistence.Entities.UserAccountEntity", "Account", b1 =>
                         {
-                            b1.Property<int>("FreelancerEntityId")
-                                .HasColumnType("int");
+                            b1.Property<Guid>("FreelancerEntityId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Email")
                                 .IsRequired()

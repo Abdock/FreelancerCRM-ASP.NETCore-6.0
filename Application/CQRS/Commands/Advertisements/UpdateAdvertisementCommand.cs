@@ -31,7 +31,7 @@ public class UpdateAdvertisementCommand : IRequest
             advertisement.Title = request._advertisement.Title;
             advertisement.Description = request._advertisement.Description;
             advertisement.Price = request._advertisement.Price;
-            await _unitOfWork.AdvertisementRepository.UpdateAsync(advertisement);
+            _unitOfWork.AdvertisementRepository.Update(advertisement);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

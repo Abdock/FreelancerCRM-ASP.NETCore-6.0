@@ -9,6 +9,4 @@ public interface IOrderRepository : IRepository<Order>
     Task<Freelancer> GetFreelancerOfOrderAsync(Order order);
 
     Task<IEnumerable<Feedback>> GetFeedbacksFromOrderAsync(Order order);
-
-    Task AddAsync(Order order);
 }

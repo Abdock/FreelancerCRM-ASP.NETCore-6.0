@@ -1,17 +1,15 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Domain.Exceptions;
 using Domain.Models;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
-using Persistence.Entities;
 
 namespace Persistence.Repositories;
 
-public class OrderRepository : RepositoryBase<Order, OrderEntity>, IOrderRepository
+public class OrderRepository : RepositoryBase<Order>, IOrderRepository
 {
-    public OrderRepository(CrmContext context, IMapper mapper) : base(context, mapper)
+    public OrderRepository(CrmContext context) : base(context)
     {
     }
 
@@ -26,7 +24,7 @@ public class OrderRepository : RepositoryBase<Order, OrderEntity>, IOrderReposit
             throw new ResourceNotFoundException(nameof(Order), order.Id);
         }
 
-        return Mapper.Map<Client>(entity.Advertisement.Client);
+        return entity.Advertisement.Client;
     }
 
     public async Task<Freelancer> GetFreelancerOfOrderAsync(Order order)
@@ -39,7 +37,7 @@ public class OrderRepository : RepositoryBase<Order, OrderEntity>, IOrderReposit
             throw new ResourceNotFoundException(nameof(Order), order.Id);
         }
 
-        return Mapper.Map<Freelancer>(entity.Freelancer);
+        return entity.Freelancer;
     }
 
     public async Task<IEnumerable<Feedback>> GetFeedbacksFromOrderAsync(Order order)
@@ -48,32 +46,6 @@ public class OrderRepository : RepositoryBase<Order, OrderEntity>, IOrderReposit
             .Include(ord => ord.Feedbacks)
             .Where(ord => ord.Id == order.Id)
             .SelectMany(ord => ord.Feedbacks)
-            .ProjectTo<Feedback>(Mapper.ConfigurationProvider)
             .ToListAsync();
-    }
-
-    public async Task AddAsync(Order order)
-    {
-        var advertisement = await Context.Advertisements
-                .FirstOrDefaultAsync(ad => ad.Id == order.Advertisement.Id);
-        if (advertisement == null)
-        {
-            throw new ResourceNotFoundException(nameof(Advertisement), order.Advertisement.Id);
-        }
-
-        var freelancer = await Context.Freelancers
-            .FirstOrDefaultAsync(freelancer => freelancer.Id == order.Freelancer.Id);
-        if (freelancer == null)
-        {
-            throw new ResourceNotFoundException(nameof(Freelancer), order.Freelancer.Id);
-        }
-
-        var entity = Mapper.Map<OrderEntity>(order);
-        entity.AdvertisementId = advertisement.Id;
-        entity.Advertisement = advertisement;
-        entity.FreelancerId = freelancer.Id;
-        entity.Freelancer = freelancer;
-
-        await Context.Orders.AddAsync(entity);
     }
 }

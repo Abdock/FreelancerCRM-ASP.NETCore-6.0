@@ -1,84 +1,84 @@
 ﻿using System.Linq.Expressions;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Domain.Base;
 using Domain.Exceptions;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Abstractions;
 using Persistence.Context;
 
 namespace Persistence.Repositories;
 
-public abstract class RepositoryBase<TDomainEntity, TPersistenceEntity> : IRepository<TDomainEntity>
-    where TDomainEntity : BaseEntity where TPersistenceEntity : BasePersistenceEntity
+public abstract class RepositoryBase<TEntity> : IRepository<TEntity>
+    where TEntity : BaseEntity
 {
     protected readonly CrmContext Context;
-    protected readonly IMapper Mapper;
 
-    protected RepositoryBase(CrmContext context, IMapper mapper)
+    protected RepositoryBase(CrmContext context)
     {
         Context = context;
-        Mapper = mapper;
     }
 
-    public async Task<TDomainEntity> GetByIdAsync(Guid id)
+    public async Task<TEntity> GetByIdAsync(Guid id)
     {
-        var entity = await Context.Set<TPersistenceEntity>().FirstOrDefaultAsync(e => e.Id == id);
+        var entity = await Context.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
         if (entity == null)
         {
-            throw new ResourceNotFoundException(nameof(TDomainEntity), id);
+            throw new ResourceNotFoundException(nameof(TEntity), id);
         }
 
-        return Mapper.Map<TDomainEntity>(entity);
+        return entity;
     }
 
-    public IQueryable<TDomainEntity> FindByCondition(Expression<Func<TDomainEntity, bool>> predicate)
+    public IQueryable<TEntity> FindByCondition(Expression<Func<TEntity, bool>> predicate)
     {
-        return Context.Set<TPersistenceEntity>()
-            .ProjectTo<TDomainEntity>(Mapper.ConfigurationProvider)
+        return Context.Set<TEntity>()
             .Where(predicate);
     }
 
     public async Task RemoveAsync(Guid id)
     {
-        var entity = await Context.Set<TPersistenceEntity>().FirstOrDefaultAsync(e => e.Id == id);
+        var entity = await Context.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
         if (entity == null)
         {
-            throw new ResourceNotFoundException(nameof(TDomainEntity), id);
+            throw new ResourceNotFoundException(nameof(TEntity), id);
         }
 
-        Context.Set<TPersistenceEntity>().Remove(entity);
+        Context.Set<TEntity>().Remove(entity);
     }
 
-    public async Task<IEnumerable<TDomainEntity>> GetAllAsync()
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         return await Context
-            .Set<TPersistenceEntity>()
-            .AsSplitQuery()
-            .ProjectTo<TDomainEntity>(Mapper.ConfigurationProvider)
+            .Set<TEntity>()
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<TDomainEntity>> GetRangeAsync(int skipCount, int takeCount)
+    public async Task<IEnumerable<TEntity>> GetRangeAsync(int skipCount, int takeCount)
     {
         return await Context
-            .Set<TPersistenceEntity>()
-            .AsSplitQuery()
+            .Set<TEntity>()
             .OrderBy(e => e.Id)
             .Skip(skipCount)
             .Take(takeCount)
-            .ProjectTo<TDomainEntity>(Mapper.ConfigurationProvider)
             .ToListAsync();
     }
 
     public async Task<bool> IsExistsAsync(Guid id)
     {
-        return await Context.Set<TPersistenceEntity>().AnyAsync(e => e.Id == id);
+        return await Context.Set<TEntity>().AnyAsync(e => e.Id == id);
     }
 
     public async Task<int> TotalCountAsync()
     {
-        return await Context.Set<TPersistenceEntity>().CountAsync();
+        return await Context.Set<TEntity>().CountAsync();
+    }
+
+    public async Task AddAsync(TEntity entity)
+    {
+        await Context.Set<TEntity>().AddAsync(entity);
+    }
+
+    public void Update(TEntity entity)
+    {
+        Context.Set<TEntity>().Update(entity);
     }
 }

@@ -36,7 +36,7 @@ public class CreateOrderCommand : IRequest<OrderResponse>
             {
                 Freelancer = freelancer,
                 Advertisement = advertisement,
-                Status = OrderStatus.InProgress
+                Status = OrderStatusId.InProgress
             };
             await _unitOfWork.OrderRepository.AddAsync(order);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -13,5 +13,5 @@ public class Advertisement : BaseEntity
     public Client Client { get; set; } = default!;
     public Category Category { get; set; } = default!;
     public ICollection<Skill> Skills { get; set; } = new HashSet<Skill>();
-    public AdvertisementStatus Status { get; set; }
+    public AdvertisementStatusId Status { get; set; }
 }

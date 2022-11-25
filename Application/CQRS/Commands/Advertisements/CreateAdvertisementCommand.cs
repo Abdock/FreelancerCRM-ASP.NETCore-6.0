@@ -36,7 +36,7 @@ public class CreateAdvertisementCommand : IRequest<AdvertisementResponse>
                 .GetByIdAsync(request._advertisement.CategoryId);
             advertisement.Client = await _unitOfWork.ClientRepository
                 .GetByIdAsync(request._advertisement.ClientId);
-            advertisement.Status = AdvertisementStatus.Open;
+            advertisement.Status = AdvertisementStatusId.Open;
             await _unitOfWork.AdvertisementRepository.AddAsync(advertisement);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return _mapper.Map<AdvertisementResponse>(advertisement);

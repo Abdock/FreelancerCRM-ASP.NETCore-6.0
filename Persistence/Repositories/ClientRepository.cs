@@ -1,16 +1,14 @@
-﻿using AutoMapper;
-using Domain.Exceptions;
+﻿using Domain.Exceptions;
 using Domain.Models;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
-using Persistence.Entities;
 
 namespace Persistence.Repositories;
 
-public class ClientRepository : RepositoryBase<Client, ClientEntity>, IClientRepository
+public class ClientRepository : RepositoryBase<Client>, IClientRepository
 {
-    public ClientRepository(CrmContext context, IMapper mapper) : base(context, mapper)
+    public ClientRepository(CrmContext context) : base(context)
     {
     }
 
@@ -24,7 +22,7 @@ public class ClientRepository : RepositoryBase<Client, ClientEntity>, IClientRep
             throw new ResourceNotFoundException($"{nameof(Client)}", id);
         }
 
-        return client.Orders.Select(order => Mapper.Map<Order>(order));
+        return client.Orders;
     }
 
     public async Task<IEnumerable<Feedback>> GetAllFeedbacksFromClientAsync(Guid id)
@@ -38,12 +36,6 @@ public class ClientRepository : RepositoryBase<Client, ClientEntity>, IClientRep
             throw new ResourceNotFoundException(nameof(Client), id);
         }
 
-        return client.Feedbacks.Select(feedback => Mapper.Map<Feedback>(feedback));
-    }
-
-    public async Task AddAsync(Client client)
-    {
-        var entity = Mapper.Map<ClientEntity>(client);
-        await Context.Clients.AddAsync(entity);
+        return client.Feedbacks;
     }
 }

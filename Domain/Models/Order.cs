@@ -11,7 +11,7 @@ public class Order : BaseEntity
     }
 
     public Advertisement Advertisement { get; set; } = default!;
-    public OrderStatus Status { get; set; } = OrderStatus.InProgress;
+    public OrderStatusId Status { get; set; } = OrderStatusId.InProgress;
     public Freelancer Freelancer { get; set; } = default!;
     public ICollection<Feedback> Feedbacks { get; set; }
 }

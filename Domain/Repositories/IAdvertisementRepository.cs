@@ -11,8 +11,4 @@ public interface IAdvertisementRepository : IRepository<Advertisement>
     Task<Category> GetCategoryOfAdvertisementAsync(Advertisement advertisement);
 
     Task<Client> GetClientOfAdvertisementAsync(Advertisement advertisement);
-
-    Task AddAsync(Advertisement advertisement);
-
-    Task UpdateAsync(Advertisement advertisement);
 }

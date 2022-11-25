@@ -11,13 +11,13 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(CrmContext context, IMapper mapper)
     {
         _context = context;
-        ClientRepository = new ClientRepository(context, mapper);
-        AdvertisementRepository = new AdvertisementRepository(context, mapper);
-        CategoryRepository = new CategoryRepository(context, mapper);
-        FeedbackRepository = new FeedbackRepository(context, mapper);
-        FreelancerRepository = new FreelancerRepository(context, mapper);
-        OrderRepository = new OrderRepository(context, mapper);
-        SkillRepository = new SkillRepository(context, mapper);
+        ClientRepository = new ClientRepository(context);
+        AdvertisementRepository = new AdvertisementRepository(context);
+        CategoryRepository = new CategoryRepository(context);
+        FeedbackRepository = new FeedbackRepository(context);
+        FreelancerRepository = new FreelancerRepository(context);
+        OrderRepository = new OrderRepository(context);
+        SkillRepository = new SkillRepository(context);
     }
 
     public IAdvertisementRepository AdvertisementRepository { get; }

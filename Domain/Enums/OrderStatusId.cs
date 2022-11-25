@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums;
 
-public enum OrderStatus
+public enum OrderStatusId
 {
     InProgress = 1,
     Completed = 3,

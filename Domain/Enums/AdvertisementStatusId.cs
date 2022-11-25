@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums;
 
-public enum AdvertisementStatus
+public enum AdvertisementStatusId
 {
     Open = 1,
     InProcess = 2,

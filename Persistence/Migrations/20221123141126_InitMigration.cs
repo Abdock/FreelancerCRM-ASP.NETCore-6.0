@@ -25,10 +25,8 @@ namespace Persistence.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    RowGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,13 +37,11 @@ namespace Persistence.Migrations
                 name: "Clients",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Account_Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Account_Surname = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Account_Email = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Account_Phone = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    RowGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Account_Phone = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,13 +52,11 @@ namespace Persistence.Migrations
                 name: "Freelancers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Account_Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Account_Surname = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Account_Email = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Account_Phone = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    RowGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Account_Phone = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,10 +79,8 @@ namespace Persistence.Migrations
                 name: "Skills",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    RowGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,17 +91,15 @@ namespace Persistence.Migrations
                 name: "Advertisements",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", maxLength: 16384, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(15,3)", precision: 15, scale: 3, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    RowGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AdvertisementStatusId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,8 +128,8 @@ namespace Persistence.Migrations
                 name: "FreelancerEntitySkillEntity",
                 columns: table => new
                 {
-                    FreelancersId = table.Column<int>(type: "int", nullable: false),
-                    SkillsId = table.Column<int>(type: "int", nullable: false)
+                    FreelancersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SkillsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -162,8 +152,8 @@ namespace Persistence.Migrations
                 name: "AdvertisementEntitySkillEntity",
                 columns: table => new
                 {
-                    AdvertisementsId = table.Column<int>(type: "int", nullable: false),
-                    SkillsId = table.Column<int>(type: "int", nullable: false)
+                    AdvertisementsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SkillsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -186,13 +176,11 @@ namespace Persistence.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RowGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderStatusId = table.Column<int>(type: "int", nullable: false),
-                    FreelancerId = table.Column<int>(type: "int", nullable: false),
-                    AdvertisementId = table.Column<int>(type: "int", nullable: false),
-                    ClientEntityId = table.Column<int>(type: "int", nullable: true)
+                    FreelancerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AdvertisementId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClientEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -226,16 +214,14 @@ namespace Persistence.Migrations
                 name: "Feedbacks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", maxLength: 8192, nullable: false),
                     Grade = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    FreelancerId = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FreelancerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -275,7 +261,6 @@ namespace Persistence.Migrations
                 values: new object[,]
                 {
                     { 1, "InProgress" },
-                    { 2, "Open" },
                     { 3, "Completed" },
                     { 4, "Cancelled" }
                 });
@@ -301,24 +286,6 @@ namespace Persistence.Migrations
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "UX_Advertisements_RowGuid",
-                table: "Advertisements",
-                column: "RowGuid",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "UX_Categories_RowGuid",
-                table: "Categories",
-                column: "RowGuid",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "UX_Clients_RowGuid",
-                table: "Clients",
-                column: "RowGuid",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Feedbacks_ClientId",
                 table: "Feedbacks",
                 column: "ClientId");
@@ -334,21 +301,9 @@ namespace Persistence.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "UX_Feedbacks_RowGuid",
-                table: "Feedbacks",
-                column: "RowGuid",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_FreelancerEntitySkillEntity_SkillsId",
                 table: "FreelancerEntitySkillEntity",
                 column: "SkillsId");
-
-            migrationBuilder.CreateIndex(
-                name: "UX_Freelancers_RowGuid",
-                table: "Freelancers",
-                column: "RowGuid",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_AdvertisementId",
@@ -371,21 +326,9 @@ namespace Persistence.Migrations
                 column: "OrderStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "UX_Orders_RowGuid",
-                table: "Orders",
-                column: "RowGuid",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "UX_Skills_Name",
                 table: "Skills",
                 column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "UX_Skills_RowGuid",
-                table: "Skills",
-                column: "RowGuid",
                 unique: true);
         }
 

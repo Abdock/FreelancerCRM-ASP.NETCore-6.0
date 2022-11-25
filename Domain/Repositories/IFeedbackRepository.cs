@@ -11,6 +11,4 @@ public interface IFeedbackRepository : IRepository<Feedback>
     Task<Freelancer> GetFreelancerOfFeedbackAsync(Feedback feedback);
 
     Task<Advertisement> GetAdvertisementFromFeedbackAsync(Feedback feedback);
-
-    Task AddAsync(Feedback feedback);
 }

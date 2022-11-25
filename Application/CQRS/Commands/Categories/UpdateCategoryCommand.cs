@@ -27,12 +27,9 @@ public class UpdateCategoryCommand : IRequest
 
         public async Task<Unit> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = new Category
-            {
-                Id = request._id,
-                Name = request._category.Name
-            };
-            await _unitOfWork.CategoryRepository.UpdateAsync(category);
+            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request._id);
+            category.Name = request._category.Name;
+            _unitOfWork.CategoryRepository.Update(category);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
