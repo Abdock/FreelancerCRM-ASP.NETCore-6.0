@@ -2,6 +2,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Persistence.Context;
+using Presentation.Constants;
 using Presentation.Extensions;
 using Presentation.Filters;
 
@@ -29,10 +30,25 @@ builder.Services.AddAutoMapper(expression => expression.AddMaps(nameof(Persisten
 builder.Services.AddUnitOfWork();
 builder.Services.AddUriService();
 builder.Services.AddPaginationService();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(ServicesConstants.AllowAllCors, policy =>
+    {
+        policy
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+    });
+});
 builder.Services.AddDbContext<CrmContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    options.UseSqlServer(connectionString);
+    options.UseSqlServer(connectionString, contextBuilder =>
+    {
+        const int maxRetriesCount = 5;
+        const double timeDelaySeconds = 10;
+        contextBuilder.EnableRetryOnFailure(maxRetriesCount, TimeSpan.FromSeconds(timeDelaySeconds), null);
+    });
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -44,7 +60,7 @@ app.UseSwaggerOpenApi();
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseCors("AllowsAll");
+app.UseCors(ServicesConstants.AllowAllCors);
 
 app.UseAuthorization();
 

@@ -1,14 +1,20 @@
-version: "3.9"  # optional since v1.27.0
+version: "3.9"
 services:
-  web_api:
+  api:
     image: "freelancers-crm"
-    container_name: web_api_application
+    build: 
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "5000:80"
-  sql:
+    depends_on:
+      - db
+  db:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
-    container_name: sql_server2022
-    ports: # not actually needed, because the two services are on the same network
-      - "1433:1433"
+    ports:
+      - "1401:1433"
     environment:
       - ACCEPT_EULA=y
+      - MSSQL_SA_PASSWORD=Sasung24
+    volumes:
+      - C:/volumes:/var/opt/mssql/data

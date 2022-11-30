@@ -10,6 +10,7 @@ public class AdvertisementConfiguration : IEntityTypeConfiguration<Advertisement
     {
         builder.Property(e => e.Title).HasMaxLength(ConfigurationsConstants.MaxShortTextLength);
         builder.Property(e => e.Description).HasMaxLength(ConfigurationsConstants.MaxLongTextLength);
+        builder.Property(e => e.Price).HasPrecision(ConfigurationsConstants.PricePrecision, ConfigurationsConstants.PriceScale);
         builder.HasOne(e => e.Category)
             .WithMany(e => e.Advertisements);
         builder.HasOne(e => e.Client);

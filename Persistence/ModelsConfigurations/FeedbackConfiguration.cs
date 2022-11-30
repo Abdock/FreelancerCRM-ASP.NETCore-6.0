@@ -18,6 +18,6 @@ public class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
         builder.Property(e => e.Title).HasMaxLength(ConfigurationsConstants.MaxShortTextLength);
         builder.Property(e => e.Comment).HasMaxLength(ConfigurationsConstants.MaxLongTextLength);
         builder.Property(e => e.Grade)
-            .HasPrecision(ConfigurationsConstants.Precision.Item1, ConfigurationsConstants.Precision.Item2);
+            .HasPrecision(ConfigurationsConstants.GradePrecision, ConfigurationsConstants.GradeScale);
     }
 }
