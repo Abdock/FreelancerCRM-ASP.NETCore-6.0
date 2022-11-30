@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Persistence.ModelsConfigurations;
 
 namespace Persistence.Context;
 
@@ -23,10 +24,13 @@ public class CrmContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Feedback>()
-            .HasOne(e => e.Order)
-            .WithMany(e => e.Feedbacks)
-            .OnDelete(DeleteBehavior.NoAction);
+        modelBuilder.ApplyConfiguration(new AdvertisementConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new ClientConfiguration());
+        modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
+        modelBuilder.ApplyConfiguration(new FreelancerConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderConfiguration());
+        modelBuilder.ApplyConfiguration(new SkillConfiguration());
         base.OnModelCreating(modelBuilder);
     }
 }

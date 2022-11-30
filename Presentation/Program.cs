@@ -39,10 +39,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerOpenApi();
-}
+app.UseSwaggerOpenApi();
 
 app.UseHttpsRedirection();
 app.UseRouting();

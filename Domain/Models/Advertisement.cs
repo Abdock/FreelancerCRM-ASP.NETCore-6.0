@@ -10,8 +10,10 @@ public class Advertisement : BaseEntity
     public decimal Price { get; set; } = default!;
     public DateTime CreationDate { get; } = DateTime.Today;
     public DateTime Deadline { get; set; } = default!;
+    public Guid OrderId { get; set; }
     public Client Client { get; set; } = default!;
     public Category Category { get; set; } = default!;
+    public Order Order { get; set; } = default!;
     public ICollection<Skill> Skills { get; set; } = new HashSet<Skill>();
     public AdvertisementStatusId Status { get; set; }
 }
